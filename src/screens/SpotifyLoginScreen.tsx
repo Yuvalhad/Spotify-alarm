@@ -10,8 +10,11 @@ import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import PrimaryButton from '@/components/PrimaryButton';
 import type {RootStackParamList} from '@/navigation/types';
 import {useAuth} from '@/state/AuthContext';
-import {SPOTIFY_SCOPES} from '@/services/spotify/spotifyAuth';
+import {SPOTIFY_CLIENT_ID, SPOTIFY_SCOPES} from '@/services/spotify/spotifyAuth';
 import {colors, spacing, typography} from '@/theme/theme';
+
+/** True until the developer pastes a real Client ID into src/config.ts. */
+const CLIENT_ID_MISSING = SPOTIFY_CLIENT_ID.startsWith('PASTE_');
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SpotifyLogin'>;
 
@@ -72,11 +75,19 @@ export default function SpotifyLoginScreen({navigation}: Props) {
             Access requested:{'\n'}
             {SPOTIFY_SCOPES.map(s => `• ${s}`).join('\n')}
           </Text>
+          {CLIENT_ID_MISSING && (
+            <Text style={styles.error}>
+              Setup needed: this build has no Spotify Client ID yet. Create an app at
+              developer.spotify.com/dashboard with redirect URI waketune://oauth-callback and
+              paste its Client ID into src/config.ts (see docs/SPOTIFY_SETUP.md).
+            </Text>
+          )}
           {error && <Text style={styles.error}>{error}</Text>}
           <PrimaryButton
             title="Continue with Spotify"
             onPress={handleConnect}
             loading={busy}
+            disabled={CLIENT_ID_MISSING}
             style={styles.button}
           />
         </>

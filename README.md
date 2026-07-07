@@ -7,8 +7,12 @@ lyrics, sing along, or dance.
 Built with **React Native (bare workflow) + TypeScript**. Local-first: no
 backend, tokens in the secure keychain, everything else on-device.
 
-📐 See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full architecture plan,
-platform-limitation analysis and MVP scope (Hebrew).
+📖 **[PROJECT_BOOK.md](./PROJECT_BOOK.md)** — the full project book (Hebrew):
+every file explained, what connects to what, alarm lifecycle end-to-end,
+failure matrix, and how-to recipes.
+
+📐 See [ARCHITECTURE.md](./ARCHITECTURE.md) for the original architecture
+plan, platform-limitation analysis and MVP scope (Hebrew).
 
 ## Project layout
 

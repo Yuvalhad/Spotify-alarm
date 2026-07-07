@@ -28,11 +28,11 @@ async function fetchCandidates(alarm: Alarm): Promise<Track[]> {
     case 'top_tracks':
       return getTopTracks(50);
     case 'playlist': {
-      if (!alarm.spotifyPlaylistId) {
+      if (!alarm.musicPlaylistId) {
         logger.warn('Playlist source without playlistId, falling back to top tracks');
         return getTopTracks(50);
       }
-      return getPlaylistTracks(alarm.spotifyPlaylistId);
+      return getPlaylistTracks(alarm.musicPlaylistId);
     }
     case 'artist': {
       const artistId =

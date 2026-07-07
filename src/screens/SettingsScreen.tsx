@@ -28,7 +28,7 @@ import {generateId} from '@/utils/random';
 type Props = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 
 export default function SettingsScreen({navigation}: Props) {
-  const {connected, profile, isPremium, disconnect} = useAuth();
+  const {connected, providerLabel, accountLabel, canPlayFullTracks, disconnect} = useAuth();
   const {alarms} = useAlarms();
   const [perms, setPerms] = useState<PermissionsSnapshot | null>(null);
   const [fallbackSound, setFallbackSound] = useState('classic_beep');
@@ -75,26 +75,24 @@ export default function SettingsScreen({navigation}: Props) {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      {/* Spotify */}
-      <Text style={styles.section}>Spotify</Text>
+      {/* Music account */}
+      <Text style={styles.section}>Music</Text>
       <View style={styles.card}>
         <Text style={styles.cardText}>
           {connected
-            ? `Connected as ${profile?.display_name ?? profile?.id ?? 'unknown'} (${
-                isPremium ? 'Premium' : 'Free'
-              })`
-            : 'Not connected'}
+            ? `${providerLabel}: ${accountLabel ?? 'connected'}`
+            : 'No music account connected'}
         </Text>
-        {connected && !isPremium && (
+        {connected && !canPlayFullTracks && (
           <Text style={styles.warn}>
-            Free account: alarms will ring with the built-in sound. Full-song playback
-            requires Premium.
+            This account can't start full songs at alarm time (requires Spotify Premium /
+            Apple Music subscription) — alarms will ring with the built-in sound.
           </Text>
         )}
         <PrimaryButton
-          title={connected ? 'Manage connection' : 'Connect Spotify'}
+          title={connected ? 'Manage connection' : 'Connect Spotify / Apple Music'}
           variant="secondary"
-          onPress={() => navigation.navigate('SpotifyLogin')}
+          onPress={() => navigation.navigate('MusicConnect')}
           style={styles.cardButton}
         />
       </View>
@@ -180,7 +178,7 @@ export default function SettingsScreen({navigation}: Props) {
       {/* Logout */}
       {connected && (
         <PrimaryButton
-          title="Log out of Spotify"
+          title={`Log out of ${providerLabel}`}
           variant="danger"
           onPress={() =>
             Alert.alert('Log out?', 'Alarms will use the built-in sound until you reconnect.', [

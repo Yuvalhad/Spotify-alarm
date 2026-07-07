@@ -43,13 +43,13 @@ type Props = NativeStackScreenProps<RootStackParamList, 'ActiveAlarm'>;
 const EMERGENCY_HOLD_MS = 10_000;
 
 const STATUS_MESSAGES: Record<string, string> = {
-  spotify_playing: '',
-  fallback_not_connected: 'Spotify is not connected — playing the built-in alarm sound.',
-  fallback_no_premium:
-    'Playing full songs requires Spotify Premium — using the built-in alarm sound.',
+  music_playing: '',
+  fallback_not_connected: 'No music account connected — playing the built-in alarm sound.',
+  fallback_not_subscribed:
+    'Playing full songs requires Spotify Premium / an Apple Music subscription — using the built-in alarm sound.',
   fallback_no_device:
     'No Spotify device is available — using the built-in alarm sound. Open Spotify once to fix this.',
-  fallback_error: 'Spotify playback failed — using the built-in alarm sound.',
+  fallback_error: 'Music playback failed — using the built-in alarm sound.',
 };
 
 export default function ActiveAlarmScreen({navigation, route}: Props) {
@@ -245,7 +245,11 @@ export default function ActiveAlarmScreen({navigation, route}: Props) {
       {ringer?.session.track ? (
         <SpotifyTrackCard
           track={ringer.session.track}
-          subtitle={ringer.status === 'spotify_playing' ? 'Playing on Spotify' : undefined}
+          subtitle={
+            ringer.status === 'music_playing'
+              ? `Playing on ${ringer.providerLabel ?? 'your music service'}`
+              : undefined
+          }
         />
       ) : (
         <View style={styles.noTrackBox}>

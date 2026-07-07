@@ -39,6 +39,8 @@
 	<array>
 		<string>spotify</string>
 	</array>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>WakeTune plays your wake-up music from your Apple Music library and playlists.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>WakeTune listens for your voice during the sing-along wake-up challenge. Audio is analyzed on your device in real time and is never recorded or uploaded.</string>
 	<key>NSMotionUsageDescription</key>

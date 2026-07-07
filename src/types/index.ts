@@ -33,9 +33,11 @@ export interface Alarm {
   enabled: boolean;
   label?: string;
 
+  /** Which streaming service this alarm plays from ('spotify' | 'apple_music'). */
+  musicProvider?: 'spotify' | 'apple_music';
   musicSourceType: MusicSourceType;
-  /** Required when musicSourceType === 'playlist'. */
-  spotifyPlaylistId?: string;
+  /** Required when musicSourceType === 'playlist' (id within the provider). */
+  musicPlaylistId?: string;
   /** Required when musicSourceType === 'artist'. */
   spotifyArtistId?: string;
   trackPickStrategy: TrackPickStrategy;

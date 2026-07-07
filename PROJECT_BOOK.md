@@ -272,6 +272,13 @@ WakeSuccessScreen — "התעוררת בהצלחה" 🌞
 
 ## 5. שכבת Spotify
 
+> **עדכון:** מעל שכבת Spotify נוספה שכבת `src/services/music/` — ממשק
+> `MusicProvider` אחיד עם שני מימושים: **Spotify** (הקובץ הזה) ו־**Apple Music**
+> (‏MusicKit נייטיבי ב־iOS, `ios/WakeTune/MusicKitModule.swift`). כל משתמש
+> מתחבר עם החשבון האישי שלו לאחד מהשירותים במסך "Connect your music";
+> ה־ringer והמסכים עובדים מול הממשק ולא מול ספק ספציפי.
+> הגדרת Apple Music: `docs/APPLE_MUSIC_SETUP.md`.
+
 ### התחברות (spotifyAuth.ts)
 
 - **תקן:** OAuth 2.0 Authorization Code + **PKCE** — הזרימה הרשמית לאפליקציות מובייל. אין client secret באפליקציה (לא נדרש ולא בטוח).

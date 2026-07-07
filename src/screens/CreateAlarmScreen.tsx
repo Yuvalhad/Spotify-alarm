@@ -12,8 +12,7 @@ import type {RootStackParamList} from '@/navigation/types';
 import type {Alarm, ChallengeMode, Difficulty, MusicSourceType} from '@/types';
 import {useAlarms} from '@/state/AlarmsContext';
 import {useAuth} from '@/state/AuthContext';
-import {getMyPlaylists} from '@/services/spotify/trackSelector';
-import type {SpotifyPlaylistSimple} from '@/services/spotify/spotifyTypes';
+import {getActiveProvider, type MusicPlaylist} from '@/services/music';
 import {loadSettings} from '@/services/storage/settingsStorage';
 import {colors, radius, spacing} from '@/theme/theme';
 import {generateId} from '@/utils/random';
@@ -59,8 +58,8 @@ export default function CreateAlarmScreen({navigation, route}: Props) {
   const [showTimePicker, setShowTimePicker] = useState(Platform.OS === 'ios');
   const [days, setDays] = useState<number[]>(editing?.daysOfWeek ?? []);
   const [source, setSource] = useState<MusicSourceType>(editing?.musicSourceType ?? 'top_tracks');
-  const [playlistId, setPlaylistId] = useState<string | undefined>(editing?.spotifyPlaylistId);
-  const [playlists, setPlaylists] = useState<SpotifyPlaylistSimple[]>([]);
+  const [playlistId, setPlaylistId] = useState<string | undefined>(editing?.musicPlaylistId);
+  const [playlists, setPlaylists] = useState<MusicPlaylist[]>([]);
   const [challenge, setChallenge] = useState<ChallengeMode>(editing?.challengeMode ?? 'lyrics');
   const [difficulty, setDifficulty] = useState<Difficulty>(editing?.difficulty ?? 'easy');
   const [gradualVolume, setGradualVolume] = useState(editing?.gradualVolumeEnabled ?? true);
@@ -68,7 +67,8 @@ export default function CreateAlarmScreen({navigation, route}: Props) {
 
   useEffect(() => {
     if (source === 'playlist' && connected && playlists.length === 0) {
-      getMyPlaylists()
+      getActiveProvider()
+        .then(provider => (provider ? provider.getPlaylists() : []))
         .then(setPlaylists)
         .catch(e => logger.warn('Failed to load playlists', e));
     }
@@ -92,8 +92,9 @@ export default function CreateAlarmScreen({navigation, route}: Props) {
         time: {hour: time.getHours(), minute: time.getMinutes()},
         daysOfWeek: [...days].sort((a, b) => a - b),
         enabled: true,
+        musicProvider: editing?.musicProvider ?? settings.musicProvider ?? undefined,
         musicSourceType: source,
-        spotifyPlaylistId: source === 'playlist' ? playlistId : undefined,
+        musicPlaylistId: source === 'playlist' ? playlistId : undefined,
         spotifyArtistId: editing?.spotifyArtistId,
         trackPickStrategy: editing?.trackPickStrategy ?? 'random',
         challengeMode: challenge,
@@ -157,7 +158,7 @@ export default function CreateAlarmScreen({navigation, route}: Props) {
       <Text style={styles.label}>Music source</Text>
       {!connected && (
         <Text style={styles.warning}>
-          Spotify is not connected — the alarm will use the built-in fallback sound.
+          No music account connected — the alarm will use the built-in fallback sound.
         </Text>
       )}
       <View style={styles.chipWrap}>
@@ -176,7 +177,7 @@ export default function CreateAlarmScreen({navigation, route}: Props) {
         <View style={styles.chipWrap}>
           {playlists.length === 0 ? (
             <Text style={styles.hint}>
-              {connected ? 'Loading playlists…' : 'Connect Spotify to choose a playlist.'}
+              {connected ? 'Loading playlists…' : 'Connect your music account to choose a playlist.'}
             </Text>
           ) : (
             playlists.map(p => (

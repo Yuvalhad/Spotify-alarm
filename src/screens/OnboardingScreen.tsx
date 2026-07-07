@@ -63,16 +63,17 @@ export default function OnboardingScreen({navigation}: Props) {
       </Text>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>1. Connect Spotify</Text>
+        <Text style={styles.sectionTitle}>1. Connect your music</Text>
         <Text style={styles.sectionBody}>
-          WakeTune picks a track from your Liked Songs, Top Tracks, playlists or favorite
-          artists. Full-song playback requires Spotify Premium — otherwise we use a built-in
-          alarm sound.
+          Sign in with your own Spotify or Apple Music account. WakeTune picks a track from
+          your Liked Songs, Top Tracks, playlists or favorite artists. Full-song playback
+          requires Spotify Premium / an Apple Music subscription — otherwise we use a
+          built-in alarm sound.
         </Text>
         <PrimaryButton
-          title={connected ? '✓ Spotify connected' : 'Connect Spotify'}
+          title={connected ? '✓ Music connected' : 'Connect Spotify / Apple Music'}
           disabled={connected}
-          onPress={() => navigation.navigate('SpotifyLogin')}
+          onPress={() => navigation.navigate('MusicConnect')}
           style={styles.sectionButton}
         />
       </View>

@@ -2,7 +2,7 @@ import type {NavigatorScreenParams} from '@react-navigation/native';
 
 export type RootStackParamList = {
   Onboarding: undefined;
-  SpotifyLogin: undefined;
+  MusicConnect: undefined;
   AlarmList: undefined;
   CreateAlarm: {alarmId?: string} | undefined;
   ActiveAlarm: {alarmId: string; isTest?: boolean};

@@ -18,6 +18,8 @@
 		WT50UND1B01LD0000000000B /* gentle_rise.wav in Resources */ = {isa = PBXBuildFile; fileRef = WT50UND1F11E00000000000A /* gentle_rise.wav */; };
 		WT50UND2B01LD0000000000B /* synth_morning.wav in Resources */ = {isa = PBXBuildFile; fileRef = WT50UND2F11E00000000000A /* synth_morning.wav */; };
 		WT50UND3B01LD0000000000B /* alarm_fallback.wav in Resources */ = {isa = PBXBuildFile; fileRef = WT50UND3F11E00000000000A /* alarm_fallback.wav */; };
+		WTMU51CK17SW1F7000000002 /* MusicKitModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = WTMU51CK17SW1F7000000001 /* MusicKitModule.swift */; };
+		WTMU51CK17OBJC7000000004 /* MusicKitModule.m in Sources */ = {isa = PBXBuildFile; fileRef = WTMU51CK17OBJC7000000003 /* MusicKitModule.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,9 @@
 		WT50UND1F11E00000000000A /* gentle_rise.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = gentle_rise.wav; path = WakeTune/Sounds/gentle_rise.wav; sourceTree = "<group>"; };
 		WT50UND2F11E00000000000A /* synth_morning.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = synth_morning.wav; path = WakeTune/Sounds/synth_morning.wav; sourceTree = "<group>"; };
 		WT50UND3F11E00000000000A /* alarm_fallback.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = alarm_fallback.wav; path = WakeTune/Sounds/alarm_fallback.wav; sourceTree = "<group>"; };
+		WTMU51CK17SW1F7000000001 /* MusicKitModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MusicKitModule.swift; path = WakeTune/MusicKitModule.swift; sourceTree = "<group>"; };
+		WTMU51CK17OBJC7000000003 /* MusicKitModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MusicKitModule.m; path = WakeTune/MusicKitModule.m; sourceTree = "<group>"; };
+		WTMU51CK17BR1D6000000005 /* WakeTune-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "WakeTune-Bridging-Header.h"; path = "WakeTune/WakeTune-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +103,9 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				WTMU51CK17SW1F7000000001 /* MusicKitModule.swift */,
+				WTMU51CK17OBJC7000000003 /* MusicKitModule.m */,
+				WTMU51CK17BR1D6000000005 /* WakeTune-Bridging-Header.h */,
 				WT50UND0F11E00000000000A /* classic_beep.wav */,
 				WT50UND1F11E00000000000A /* gentle_rise.wav */,
 				WT50UND2F11E00000000000A /* synth_morning.wav */,
@@ -412,6 +420,8 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				WTMU51CK17SW1F7000000002 /* MusicKitModule.swift in Sources */,
+				WTMU51CK17OBJC7000000004 /* MusicKitModule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,6 +491,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-WakeTune.debug.xcconfig */;
 			buildSettings = {
+				SWIFT_OBJC_BRIDGING_HEADER = "WakeTune/WakeTune-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -508,6 +520,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-WakeTune.release.xcconfig */;
 			buildSettings = {
+				SWIFT_OBJC_BRIDGING_HEADER = "WakeTune/WakeTune-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;

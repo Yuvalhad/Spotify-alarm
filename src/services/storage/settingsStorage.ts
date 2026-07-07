@@ -10,12 +10,15 @@ export interface AppSettings {
   defaultFallbackSound: string;
   /** User consent to microphone processing (local-only) for singing challenge. */
   micProcessingConsent: boolean;
+  /** The streaming service the user connected ('spotify' | 'apple_music'). */
+  musicProvider: 'spotify' | 'apple_music' | null;
 }
 
 const DEFAULTS: AppSettings = {
   onboardingCompleted: false,
   defaultFallbackSound: 'classic_beep',
   micProcessingConsent: false,
+  musicProvider: null,
 };
 
 export async function loadSettings(): Promise<AppSettings> {

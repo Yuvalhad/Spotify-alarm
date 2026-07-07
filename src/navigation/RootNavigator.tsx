@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {colors} from '@/theme/theme';
 import OnboardingScreen from '@/screens/OnboardingScreen';
-import SpotifyLoginScreen from '@/screens/SpotifyLoginScreen';
+import MusicConnectScreen from '@/screens/MusicConnectScreen';
 import AlarmListScreen from '@/screens/AlarmListScreen';
 import CreateAlarmScreen from '@/screens/CreateAlarmScreen';
 import ActiveAlarmScreen from '@/screens/ActiveAlarmScreen';
@@ -29,9 +29,9 @@ export default function RootNavigator({initialRouteName}: Props) {
       }}>
       <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{headerShown: false}} />
       <Stack.Screen
-        name="SpotifyLogin"
-        component={SpotifyLoginScreen}
-        options={{title: 'Connect Spotify'}}
+        name="MusicConnect"
+        component={MusicConnectScreen}
+        options={{title: 'Connect Music'}}
       />
       <Stack.Screen name="AlarmList" component={AlarmListScreen} options={{title: 'WakeTune'}} />
       <Stack.Screen

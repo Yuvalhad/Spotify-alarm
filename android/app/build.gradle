@@ -1,0 +1,67 @@
+apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
+
+/**
+ * React Native app configuration - see
+ * https://reactnative.dev/docs/react-native-gradle-plugin
+ */
+react {
+    autolinkLibrariesWithApp()
+}
+
+def enableProguardInReleaseBuilds = false
+def jscFlavor = 'org.webkit:android-jsc:+'
+
+android {
+    ndkVersion rootProject.ext.ndkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdk rootProject.ext.compileSdkVersion
+
+    namespace "com.waketune"
+    defaultConfig {
+        applicationId "com.waketune"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "0.1.0"
+
+        // react-native-app-auth: the custom scheme Spotify redirects back to
+        // (must match SPOTIFY_REDIRECT_URL in src/services/spotify/spotifyAuth.ts
+        // and the redirect URI registered in the Spotify developer dashboard).
+        manifestPlaceholders = [appAuthRedirectScheme: 'waketune']
+    }
+    signingConfigs {
+        debug {
+            // TODO(release): generate android/app/debug.keystore with:
+            //   keytool -genkeypair -v -keystore debug.keystore -storepass android \
+            //     -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+            // (the standard RN debug keystore is intentionally not committed here)
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            // TODO(release): configure a real release signing config.
+            signingConfig signingConfigs.debug
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+}
+
+dependencies {
+    implementation("com.facebook.react:react-android")
+
+    if (hermesEnabled.toBoolean()) {
+        implementation("com.facebook.react:hermes-android")
+    } else {
+        implementation jscFlavor
+    }
+}

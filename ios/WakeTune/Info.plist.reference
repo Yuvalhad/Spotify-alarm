@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  REFERENCE FILE - the ios/ Xcode project is not committed (see docs/IOS_SETUP.md
+  for how to generate it). Merge these keys into the generated Info.plist.
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDisplayName</key>
+	<string>WakeTune</string>
+
+	<!-- OAuth redirect back from Spotify (react-native-app-auth) -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.waketune.oauth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>waketune</string>
+			</array>
+		</dict>
+	</array>
+
+	<!-- Let Linking.canOpenURL('spotify:') work -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>spotify</string>
+	</array>
+
+	<!-- Singing challenge: local-only level analysis, never recorded/uploaded -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>WakeTune listens for your voice during the sing-along wake-up challenge. Audio is analyzed on your device in real time and is never recorded or uploaded.</string>
+
+	<!-- Dance challenge (CoreMotion-backed sensors) -->
+	<key>NSMotionUsageDescription</key>
+	<string>WakeTune uses motion sensors to verify the dance wake-up challenge.</string>
+
+	<!--
+	  TODO(ios): Background audio is intentionally NOT declared. Apple rejects
+	  apps that declare `UIBackgroundModes: audio` without continuously playing
+	  audible audio. If a "sleep mode" (silent keep-alive audio session) is ever
+	  added, revisit this together with App Review guidelines.
+	-->
+</dict>
+</plist>

@@ -19,3 +19,27 @@ buildscript {
 }
 
 apply plugin: "com.facebook.react.rootproject"
+
+/**
+ * AGP 8 requires every Android library to declare a `namespace`. Several
+ * older community libraries (react-native-sound, react-native-audio-record,
+ * ...) still declare it via the manifest `package` attribute instead. This
+ * shim reads the package from each library's manifest and sets it as the
+ * namespace so they build with AGP 8.
+ */
+subprojects { subproject ->
+    subproject.plugins.withId("com.android.library") {
+        subproject.extensions.configure(com.android.build.gradle.LibraryExtension) { ext ->
+            if (ext.namespace == null) {
+                def manifestFile = subproject.file("src/main/AndroidManifest.xml")
+                if (manifestFile.exists()) {
+                    def parsed = new groovy.xml.XmlSlurper().parse(manifestFile)
+                    def pkg = parsed.@package.text()
+                    if (pkg) {
+                        ext.namespace = pkg
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,45 @@
+# Builds an installable Android APK (release build signed with the debug
+# keystore) on every push to the development branches, so the app can be
+# tried on a real phone without a local dev environment.
+#
+# Download: GitHub → Actions → this run → Artifacts → waketune-apk
+name: android-apk
+
+on:
+  push:
+    branches: ['claude/**', 'main']
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install JS dependencies
+        run: npm ci
+
+      - name: Typecheck & test
+        run: |
+          npm run typecheck
+          npm test -- --ci
+
+      - name: Build APK
+        run: cd android && ./gradlew assembleRelease --no-daemon
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: waketune-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
+          retention-days: 30

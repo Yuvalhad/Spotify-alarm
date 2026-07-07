@@ -60,7 +60,7 @@ npm run ios
 ```
 
 Bundled alarm sounds are synthesized originals — regenerate or replace via
-`node scripts/generateSounds.js` (see `android/app/src/main/res/raw/README.md`).
+`node scripts/generateSounds.js` (see `docs/SOUNDS.md`).
 
 ## Releasing to the stores
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
 
 import type {Track} from '@/types';
 import {colors, radius, spacing} from '@/theme/theme';
@@ -9,9 +9,22 @@ interface Props {
   subtitle?: string;
 }
 
+/**
+ * Spotify attribution compliance: tapping the card opens the track in the
+ * Spotify app (content shown from Spotify must link back to Spotify).
+ */
+function openInSpotify(track: Track): void {
+  Linking.openURL(track.uri).catch(() =>
+    Linking.openURL(`https://open.spotify.com/track/${track.id}`).catch(() => undefined),
+  );
+}
+
 export default function SpotifyTrackCard({track, subtitle}: Props) {
   return (
-    <View style={styles.card}>
+    <Pressable
+      style={styles.card}
+      onPress={() => openInSpotify(track)}
+      accessibilityLabel={`Open ${track.title} in Spotify`}>
       {track.albumArtUrl ? (
         <Image source={{uri: track.albumArtUrl}} style={styles.art} />
       ) : (
@@ -27,8 +40,9 @@ export default function SpotifyTrackCard({track, subtitle}: Props) {
           {track.artist}
         </Text>
         {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+        <Text style={styles.openLink}>Open in Spotify ↗</Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -51,4 +65,5 @@ const styles = StyleSheet.create({
   title: {fontSize: 18, fontWeight: '700', color: colors.textPrimary},
   artist: {fontSize: 15, color: colors.textSecondary, marginTop: 2},
   subtitle: {fontSize: 12, color: colors.primary, marginTop: spacing.xs},
+  openLink: {fontSize: 11, color: colors.textMuted, marginTop: spacing.xs},
 });

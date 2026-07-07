@@ -36,25 +36,36 @@ docs/                       SPOTIFY_SETUP.md · IOS_SETUP.md
 
 ## Getting started
 
+The only thing you must configure is your Spotify Client ID:
+
+1. Create an app at https://developer.spotify.com/dashboard with redirect URI
+   `waketune://oauth-callback` (details: [docs/SPOTIFY_SETUP.md](./docs/SPOTIFY_SETUP.md)).
+2. Paste the Client ID into **`src/config.ts`**.
+
+Then:
+
 ```bash
 npm install
 
-# Android (see notes below)
+# Android (gradle wrapper, debug keystore and sounds are already in the repo)
 npm run android
 
-# iOS - generate the Xcode project first: docs/IOS_SETUP.md
+# iOS (Mac only) - full Xcode project is committed
+cd ios && bundle install && bundle exec pod install && cd ..
 npm run ios
 ```
 
-Before first run:
+Bundled alarm sounds are synthesized originals — regenerate or replace via
+`node scripts/generateSounds.js` (see `android/app/src/main/res/raw/README.md`).
 
-1. **Spotify**: create an app + set your client id — see
-   [docs/SPOTIFY_SETUP.md](./docs/SPOTIFY_SETUP.md).
-2. **Android**: generate the gradle wrapper (`gradle wrapper` in `android/`,
-   Gradle 8.8) and a debug keystore (command in `android/app/build.gradle`).
-3. **Sounds**: add royalty-free alarm sound files — see
-   `android/app/src/main/res/raw/README.md`.
-4. **iOS**: generate the Xcode project — see [docs/IOS_SETUP.md](./docs/IOS_SETUP.md).
+## Releasing to the stores
+
+See **[docs/RELEASE.md](./docs/RELEASE.md)** — a step-by-step guide for
+Google Play and the App Store, including Android release signing
+(`android/keystore.properties`), the CI workflow that builds a signed AAB
+(`.github/workflows/android-release.yml`), the Spotify extended-quota
+request, store listing copy ([docs/STORE_LISTING.md](./docs/STORE_LISTING.md))
+and the privacy policy ([PRIVACY_POLICY.md](./PRIVACY_POLICY.md)).
 
 ## What it deliberately does NOT do
 

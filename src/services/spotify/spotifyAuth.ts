@@ -12,14 +12,12 @@
  */
 import {authorize, refresh, type AuthConfiguration} from 'react-native-app-auth';
 
+import {SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URL} from '@/config';
 import {getSecureItem, removeSecureItem, setSecureItem} from '@/services/storage/secureStorage';
 import {logger} from '@/utils/logger';
 import type {SpotifyTokens} from './spotifyTypes';
 
-// TODO(config): replace with your Spotify app client id. With PKCE there is no
-// client secret in the app - never embed one.
-export const SPOTIFY_CLIENT_ID = 'YOUR_SPOTIFY_CLIENT_ID';
-export const SPOTIFY_REDIRECT_URL = 'waketune://oauth-callback';
+export {SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URL};
 
 /**
  * Only the scopes we actually need. Do not add more.

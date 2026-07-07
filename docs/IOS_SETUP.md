@@ -1,33 +1,30 @@
 # iOS setup
 
-The `ios/` Xcode project is not committed (a `project.pbxproj` cannot be
-meaningfully hand-authored/reviewed). Generate it once locally:
+The `ios/` folder contains a complete Xcode project (based on the official
+React Native 0.75.4 template, renamed to WakeTune) with everything already
+configured:
+
+- `Info.plist`: URL scheme `waketune` (Spotify OAuth redirect),
+  `LSApplicationQueriesSchemes: spotify`, microphone + motion usage
+  descriptions, portrait-only.
+- `Podfile`: react-native-permissions `setup_permissions(['Microphone'])`.
+- `WakeTune/Sounds/*.wav`: bundled fallback alarm sounds, already registered
+  as Xcode resources (regenerate with `node scripts/generateSounds.js`).
+
+## Build (requires a Mac + Xcode)
 
 ```bash
-# From the repo root, with Node 18+ and Xcode installed:
-npx @react-native-community/cli init WakeTuneTmp --version 0.75.4 --skip-install
-cp -R WakeTuneTmp/ios ./ios-template   # take the generated ios/ folder
-# Rename the project to WakeTune (or generate with the right name directly),
-# move it to ./ios, then:
-cd ios && bundle install && bundle exec pod install
+npm install
+cd ios
+bundle install            # first time only (installs CocoaPods via Gemfile)
+bundle exec pod install
+open WakeTune.xcworkspace # note: .xcworkspace, not .xcodeproj
 ```
 
-Then apply the WakeTune-specific configuration:
+Then in Xcode: select your **Team** under Signing & Capabilities, set your
+bundle identifier (e.g. `com.yourname.waketune`), and run on a device.
 
-1. **Info.plist** — merge every key from `ios/WakeTune/Info.plist.reference`
-   (URL scheme `waketune`, `LSApplicationQueriesSchemes`, mic/motion usage
-   descriptions).
-2. **Signing** — set your team + bundle id (e.g. `com.yourname.waketune`).
-3. **Sounds** — add the fallback alarm sound files to the app bundle
-   (`classic_beep.mp3`, `gentle_rise.mp3`, `synth_morning.mp3`, and a
-   `alarm_fallback.wav` under 30s for notification sounds). Then switch
-   `sound: 'default'` to the real file in
-   `src/services/alarms/schedulerShared.ts`.
-4. **react-native-permissions** — add the Microphone permission handler to the
-   Podfile per the library README:
-   ```ruby
-   setup_permissions(['Microphone'])
-   ```
+Store submission: see `docs/RELEASE.md`.
 
 ## Honest iOS limitations (already handled in code)
 
@@ -35,9 +32,10 @@ Then apply the WakeTune-specific configuration:
   time**. The alarm rings as a local notification (time-sensitive level);
   Spotify playback + the challenge start when the user taps it. See
   `src/services/alarms/alarmScheduler.ios.ts`.
-- Notification sounds are capped at ~30 seconds and respect silent/Focus.
-  Ringing "forever" is impossible without the **Critical Alerts** entitlement
-  (requires an application to Apple). TODO markers exist in
+- Notification sounds are capped at ~30 seconds (our `alarm_fallback.wav` is
+  25s) and respect silent/Focus. Ringing "forever" from a killed app is
+  impossible without the **Critical Alerts** entitlement (requires an
+  application to Apple - link in docs/RELEASE.md). TODO markers exist in
   `schedulerShared.ts` and `alarmScheduler.ios.ts`.
 - Onboarding tells users: don't force-quit the app at night, allow
   notifications, allow Time-Sensitive notifications in Sleep/Focus.

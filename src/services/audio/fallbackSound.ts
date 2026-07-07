@@ -3,11 +3,9 @@
  * audible even when Spotify fails (no premium / no device / offline / API
  * error). Plays a bundled sound in a loop via react-native-sound.
  *
- * TODO(assets): add the actual sound files:
- *  - android/app/src/main/res/raw/classic_beep.mp3 (+ others below)
- *  - ios: add the same files to the Xcode project bundle
- * Until real assets are added, playback errors are caught and logged; the
- * notification channel's own sound still rings.
+ * The sound files are synthesized (fully original, royalty-free) by
+ * scripts/generateSounds.js into android/app/src/main/res/raw/ and
+ * ios/WakeTune/Sounds/ (registered as Xcode bundle resources).
  */
 import {Platform} from 'react-native';
 import Sound from 'react-native-sound';
@@ -15,9 +13,9 @@ import Sound from 'react-native-sound';
 import {logger} from '@/utils/logger';
 
 export const FALLBACK_SOUNDS = [
-  {key: 'classic_beep', label: 'Classic Beep', file: 'classic_beep.mp3'},
-  {key: 'gentle_rise', label: 'Gentle Rise', file: 'gentle_rise.mp3'},
-  {key: 'synth_morning', label: 'Synth Morning', file: 'synth_morning.mp3'},
+  {key: 'classic_beep', label: 'Classic Beep', file: 'classic_beep.wav'},
+  {key: 'gentle_rise', label: 'Gentle Rise', file: 'gentle_rise.wav'},
+  {key: 'synth_morning', label: 'Synth Morning', file: 'synth_morning.wav'},
 ] as const;
 
 let current: Sound | null = null;
